@@ -29,7 +29,8 @@
   
         <div class="mt-8">
           <div>
-            <form action="{% url 'users:login' %}" method="POST" class="space-y-6">{% csrf_token %}
+            <form action="{% url 'users:login' %}" method="POST" class="space-y-6">
+              {% csrf_token %}
               <div>
                 <label class="block text-sm/6 font-medium text-gray-200">Username</label>
                 <div class="mt-2">

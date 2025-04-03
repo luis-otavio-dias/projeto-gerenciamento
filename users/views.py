@@ -62,7 +62,7 @@ def login_view(request):
 
         if user:
             login(request, user)
-            return redirect("/mentorados/")
+            return redirect("/students/")
         messages.add_message(
             request,
             constants.ERROR,
