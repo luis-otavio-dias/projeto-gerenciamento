@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.messages import constants
+from django.contrib import auth
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 
@@ -69,3 +71,9 @@ def login_view(request):
             "Username ou senha inválidos.",
         )
         return redirect("users:login")
+
+
+@login_required(login_url="users:login")
+def logout_view(request):
+    auth.logout(request)
+    return redirect("users:login")

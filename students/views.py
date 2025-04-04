@@ -1,14 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.messages import constants
+from django.contrib.auth.decorators import login_required
 from students.models import Students, Navigators
 
 
 # Create your views here.
+@login_required(login_url="users:login")
 def students(request):
-    if not request.user.is_authenticated:
-        return redirect("login")
-
     if request.method == "GET":
         navigators = Navigators.objects.filter(owner=request.user)
         students = Students.objects.filter(owner=request.user)
