@@ -62,7 +62,7 @@
                     <div>
                         <label class="block text-sm/6 font-medium text-gray-200">Foto</label>
                         <div class="mt-2">
-                            <input type="file" name="foto" id="foto" autocomplete="foto" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
+                          <input type="file" name="foto" id="foto" autocomplete="foto" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
                         </div>
                     </div>
                     <div>
@@ -118,7 +118,7 @@
               </colgroup>
               <thead class="border-b border-white/10 text-sm/6 text-white">
                 <tr>
-                  <th scope="col" class="py-2 pl-4 pr-8 font-semibold sm:pl-6 lg:pl-8">Usuário</th>
+                  <th scope="col" class="py-2 pl-4 pr-8 font-semibold sm:pl-6 lg:pl-8">Mentorado</th>
                   <th scope="col" class="hidden py-2 pl-0 pr-8 font-semibold sm:table-cell">Estágio</th>
                   <th scope="col" class="py-2 pl-0 pr-4 text-right font-semibold sm:pr-8 sm:text-left lg:pr-20">Status</th>
                   <th scope="col" class="hidden py-2 pl-0 pr-8 font-semibold md:table-cell lg:pr-20">Data entrada</th>
@@ -131,7 +131,11 @@
                   <tr>
                     <td class="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
                       <div class="flex items-center gap-x-4">
-                        <img src="{{student.picture.url}}" alt="" class="size-8 rounded-full bg-gray-800">
+                        {% if student.picture %}
+                          <img src="{{student.picture.url}}" alt="" class="size-8 rounded-full bg-gray-800">
+                        {% else %}
+                          <img src="" alt="" class="size-8 rounded-full bg-gray-800">
+                        {% endif %}
                         <div class="truncate text-sm/6 font-medium text-white"> {{student.name}} </div>
                       </div>
                     </td>
@@ -166,5 +170,23 @@
      
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: {{stages_flat|safe}},
+        datasets: [{
+          label: '',
+          data: {{ qtt_stages|safe }},
+          borderWidth: 1
+        }]
+      },
+      
+    });
+</script>
 
 {% endblock 'body' %}

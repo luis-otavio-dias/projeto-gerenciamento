@@ -11,14 +11,26 @@ def students(request):
     if request.method == "GET":
         navigators = Navigators.objects.filter(owner=request.user)
         students = Students.objects.filter(owner=request.user)
+
+        stages_flat = [i[1] for i in Students.stage_choices]
+        qtt_stages = []
+
+        for i, j in Students.stage_choices:
+            x = Students.objects.filter(stage=i).filter(owner=request.user).count()
+            qtt_stages.append(x)
+
+        context = {
+            "stages": Students.stage_choices,
+            "navigators": navigators,
+            "students": students,
+            "stages_flat": stages_flat,
+            "qtt_stages": qtt_stages,
+        }
+
         return render(
             request,
             "students.html",
-            {
-                "stages": Students.stage_choices,
-                "navigators": navigators,
-                "students": students,
-            },
+            context,
         )
 
     elif request.method == "POST":
