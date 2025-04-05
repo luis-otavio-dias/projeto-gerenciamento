@@ -4,6 +4,7 @@ from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
 from students.models import Students, Navigators, ScheduleAvailability
 from datetime import datetime, timedelta
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -91,3 +92,19 @@ def meets(request):
             "Horário agendado com sucesso.",
         )
         return redirect("students:meets")
+
+
+def auth_view(request):
+    if request.method == "GET":
+        return render(request, "auth_student.html")
+    elif request.method == "POST":
+        token = request.POST.get("token")
+
+        if not Students.objects.filter(token=token).exists():
+            messages.add_message(request, constants.ERROR, "Token inválido.")
+            return redirect("students:auth_student")
+
+        response = redirect("students:select_day")
+        response.set_cookie("auth_token", token, max_age=3600)
+
+        return response
