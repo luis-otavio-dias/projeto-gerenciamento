@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
-from students.models import Students, Navigators
+from students.models import Students, Navigators, ScheduleAvailability
+from datetime import datetime, timedelta
 
 
 # Create your views here.
@@ -60,5 +61,32 @@ def students(request):
 def meets(request):
     if request.method == "GET":
         return render(request, "meets.html")
-    elif request.method == "POST":
-        ...
+    else:
+        date = request.POST.get("data")
+        date = datetime.strptime(date, "%Y-%m-%dT%H:%M")
+
+        availability = ScheduleAvailability.objects.filter(
+            initial_date__gte=(date - timedelta(minutes=50)),
+            initial_date__lte=(date + timedelta(minutes=50)),
+        )
+
+        if availability.exists():
+            messages.add_message(
+                request,
+                constants.ERROR,
+                "Você já possui uma reunião em aberto.",
+            )
+            return redirect("students:meets")
+
+        availability = ScheduleAvailability(
+            initial_date=date,
+            mentor=request.user,
+        )
+
+        availability.save()
+        messages.add_message(
+            request,
+            constants.SUCCESS,
+            "Horário agendado com sucesso.",
+        )
+        return redirect("students:meets")

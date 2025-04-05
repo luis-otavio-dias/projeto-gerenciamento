@@ -5,6 +5,10 @@ from datetime import timedelta
 
 # Create your models here.
 class Navigators(models.Model):
+    class Meta:
+        verbose_name = "Navigators"
+        verbose_name_plural = "Navigators"
+
     name = models.CharField(max_length=50)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -13,6 +17,10 @@ class Navigators(models.Model):
 
 
 class Students(models.Model):
+    class Meta:
+        verbose_name = "Students"
+        verbose_name_plural = "Students"
+
     stage_choices = (
         ("E1", "10-100k"),
         ("E2", "100-1kk"),
@@ -41,6 +49,10 @@ class Students(models.Model):
 
 
 class ScheduleAvailability(models.Model):
+    class Meta:
+        verbose_name = "ScheduleAvailability"
+        verbose_name_plural = "ScheduleAvailabilities"
+
     initial_date = models.DateTimeField(null=True, blank=True)
     mentor = models.ForeignKey(User, on_delete=models.CASCADE)
     scheduled = models.BooleanField(default=False)

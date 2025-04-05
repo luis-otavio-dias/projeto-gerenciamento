@@ -18,7 +18,7 @@
         </button>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
-        <a href="#" class="text-sm/6 font-semibold text-gray-100">Mentorados</a>
+        <a href="{% url "students:student" %}" class="text-sm/6 font-semibold text-gray-100">Mentorados</a>
         <a href="#" class="text-sm/6 font-semibold text-gray-100">Tarefas</a>
         <a href="#" class="text-sm/6 font-semibold text-gray-100">Progressos</a>
         <a href="#" class="text-sm/6 font-semibold text-gray-100">Navigators</a>
@@ -46,7 +46,8 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                <form action="{% url 'reunioes' %}" method="POST">{% csrf_token %}
+                <form action="{% url 'students:meets' %}" method="POST">
+                  {% csrf_token %}
                   <h2 class="mt-4 text-2xl/9 font-bold tracking-tight text-gray-100">Abra um horário</h2>
                   <label for="email" class="block text-sm/6 font-medium text-gray-200">Data</label>
                   <input type="datetime-local" name="data" id="date" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
