@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import timedelta
+import secrets
 
 
 # Create your models here.
@@ -43,6 +44,18 @@ class Students(models.Model):
     )
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     created_in = models.DateField(auto_now_add=True)
+    token = models.CharField(max_length=16, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.token:
+            self.token = self.generate_unique_token()
+        super().save(*args, **kwargs)
+
+    def generate_unique_token(self):
+        while True:
+            token = secrets.token_urlsafe(8)
+            if not Students.objects.filter(token=token).exists():
+                return token
 
     def __str__(self):
         return self.name
