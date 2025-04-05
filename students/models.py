@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import timedelta
 
 
 # Create your models here.
@@ -37,3 +38,12 @@ class Students(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ScheduleAvailability(models.Model):
+    initial_date = models.DateTimeField(null=True, blank=True)
+    mentor = models.ForeignKey(User, on_delete=models.CASCADE)
+    scheduled = models.BooleanField(default=False)
+
+    def final_date(self):
+        return self.initial_date + timedelta(minutes=50)

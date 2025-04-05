@@ -55,3 +55,10 @@ def students(request):
             "Mentorado cadastrado com sucesso.",
         )
         return redirect("students:student")
+
+
+def meets(request):
+    if request.method == "GET":
+        return render(request, "meets.html")
+    elif request.method == "POST":
+        ...
