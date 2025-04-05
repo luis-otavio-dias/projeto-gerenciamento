@@ -58,6 +58,7 @@ def students(request):
         return redirect("students:student")
 
 
+@login_required(login_url="users:login")
 def meets(request):
     if request.method == "GET":
         return render(request, "meets.html")
