@@ -4,7 +4,7 @@ from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
 from students.models import Students, Navigators, ScheduleAvailability
 from datetime import datetime, timedelta
-from django.http import HttpResponse
+from students.auth import validate_token
 
 
 # Create your views here.
@@ -108,3 +108,26 @@ def auth_view(request):
         response.set_cookie("auth_token", token, max_age=3600)
 
         return response
+
+
+def select_day(request):
+    if not validate_token(request.COOKIES.get("auth_token")):
+        return redirect("auth_student")
+
+    if request.method == "GET":
+        student = validate_token(request.COOKIES.get("auth_token"))
+
+        availabilities = ScheduleAvailability.objects.filter(
+            initial_date__gte=datetime.now(),
+            scheduled=False,
+            mentor=student.owner,
+        ).values_list("initial_date", flat=True)
+
+        dates = []
+        for i in availabilities:
+            dates.append(i.date().strftime("%d-%m-%Y"))
+
+        context = {
+            "schedules": list(set(dates)),
+        }
+        return render(request, "select_day.html", context)
