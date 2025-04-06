@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from students.auth import validate_token
 from django.conf import settings
 import locale
-from django.http import HttpResponse
+
 
 locale.setlocale(locale.LC_TIME, settings.LANGUAGE_CODE.replace("-", "_"))
 
@@ -67,7 +67,8 @@ def students(request):
 @login_required(login_url="users:login")
 def meeting(request):
     if request.method == "GET":
-        return render(request, "meeting.html")
+        meetings = Meeting.objects.filter(date__mentor=request.user)
+        return render(request, "meeting.html", {"meetings": meetings})
     else:
         date = request.POST.get("data")
         date = datetime.strptime(date, "%Y-%m-%dT%H:%M")
