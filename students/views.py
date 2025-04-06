@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.contrib.messages import constants
-from django.contrib.auth.decorators import login_required
-from students.models import Students, Navigators, ScheduleAvailability, Meeting
-from datetime import datetime, timedelta
+from students.models import Students, Navigators, ScheduleAvailability, Meeting, Task
 from students.auth import validate_token
+from datetime import datetime, timedelta
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib.messages import constants
+from django.contrib import messages
 from django.conf import settings
+from django.http import Http404
 import locale
 
 
@@ -202,3 +203,26 @@ def schedule_meeting(request):
                 "Horário não encontrado.",
             )
             return redirect("students:select_day")
+
+
+def task(request, id):
+    student = Students.objects.get(id=id)
+
+    if student.owner != request.user:
+        raise Http404()
+
+    if request.method == "GET":
+        tasks = Task.objects.filter(student=student)
+        context = {
+            "student": student,
+            "tasks": tasks,
+        }
+
+        return render(request, "task.html", context)
+    else:
+        task = Task(
+            student=student,
+            task=request.POST.get("tarefa"),
+        )
+        task.save()
+        return redirect(f"/students/task/{id}")

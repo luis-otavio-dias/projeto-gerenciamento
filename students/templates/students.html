@@ -106,7 +106,9 @@
                         {% else %}
                           <img src="" alt="" class="size-8 rounded-full bg-gray-800">
                         {% endif %}
-                        <div class="truncate text-sm/6 font-medium text-white"> {{student.name}} </div>
+                        <div class="truncate text-sm/6 font-medium text-white"> 
+                          <a href="{% url "students:task" student.id %}">{{student.name}}</a>
+                        </div>
                       </div>
                     </td>
                     <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
