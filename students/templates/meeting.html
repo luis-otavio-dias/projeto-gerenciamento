@@ -19,7 +19,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                <form action="{% url 'students:meets' %}" method="POST">
+                <form action="{% url 'students:meeting' %}" method="POST">
                   {% csrf_token %}
                   <h2 class="mt-4 text-2xl/9 font-bold tracking-tight text-gray-100">Abra um horário</h2>
                   <label for="email" class="block text-sm/6 font-medium text-gray-200">Data</label>

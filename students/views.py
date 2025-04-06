@@ -6,8 +6,8 @@ from students.models import Students, Navigators, ScheduleAvailability, Meeting
 from datetime import datetime, timedelta
 from students.auth import validate_token
 from django.conf import settings
-import calendar
 import locale
+from django.http import HttpResponse
 
 locale.setlocale(locale.LC_TIME, settings.LANGUAGE_CODE.replace("-", "_"))
 
@@ -65,9 +65,9 @@ def students(request):
 
 
 @login_required(login_url="users:login")
-def meets(request):
+def meeting(request):
     if request.method == "GET":
-        return render(request, "meets.html")
+        return render(request, "meeting.html")
     else:
         date = request.POST.get("data")
         date = datetime.strptime(date, "%Y-%m-%dT%H:%M")
@@ -83,7 +83,7 @@ def meets(request):
                 constants.ERROR,
                 "Você já possui uma reunião em aberto.",
             )
-            return redirect("students:meets")
+            return redirect("students:meeting")
 
         availability = ScheduleAvailability(
             initial_date=date,
@@ -96,7 +96,7 @@ def meets(request):
             constants.SUCCESS,
             "Horário agendado com sucesso.",
         )
-        return redirect("students:meets")
+        return redirect("students:meeting")
 
 
 def auth_view(request):
@@ -147,11 +147,11 @@ def schedule_meeting(request):
     if not validate_token(request.COOKIES.get("auth_token")):
         return redirect("students:auth_student")
 
+    student = validate_token(request.COOKIES.get("auth_token"))
+
     if request.method == "GET":
         date = request.GET.get("date")
         date = datetime.strptime(date, "%d-%m-%Y")
-
-        student = validate_token(request.COOKIES.get("auth_token"))
 
         schedules = ScheduleAvailability.objects.filter(
             initial_date__gte=date,
@@ -168,13 +168,36 @@ def schedule_meeting(request):
         return render(request, "schedule_meeting.html", context)
 
     else:
-        schedule_id = request.POST.get("schedule_id")
+        schedule_id = request.POST.get("horario")
         tag = request.POST.get("tag")
-        description = request.POST.get("description")
+        description = request.POST.get("descricao")
 
-        meeting = Meeting(
-            date_id=schedule_id,
-            student=validate_token(request.COOKIES.get("auth_token")),
-            tag=tag,
-            description=description,
-        )
+        # return HttpResponse(schedule_id) Output: 2
+
+        if ScheduleAvailability.objects.filter(id=schedule_id).exists():
+            meeting = Meeting(
+                date_id=schedule_id,
+                student=student,
+                tag=tag,
+                description=description,
+            )
+            meeting.save()
+
+            schedule = ScheduleAvailability.objects.get(id=schedule_id)
+            schedule.scheduled = True
+            schedule.save()
+
+            messages.add_message(
+                request,
+                constants.SUCCESS,
+                "Reunião agendada com sucesso.",
+            )
+
+            return redirect("students:select_day")
+        else:
+            messages.add_message(
+                request,
+                constants.ERROR,
+                "Horário não encontrado.",
+            )
+            return redirect("students:select_day")
