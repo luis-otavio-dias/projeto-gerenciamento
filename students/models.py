@@ -72,3 +72,17 @@ class ScheduleAvailability(models.Model):
 
     def final_date(self):
         return self.initial_date + timedelta(minutes=50)
+
+
+class Meeting(models.Model):
+    tag_choices = (
+        ("G", "Gestão"),
+        ("M", "Marketing"),
+        ("RH", "Gestão de pessoas"),
+        ("I", "Impostos"),
+    )
+
+    date = models.ForeignKey(ScheduleAvailability, on_delete=models.CASCADE)
+    student = models.ForeignKey(Students, on_delete=models.CASCADE)
+    tag = models.CharField(max_length=2, choices=tag_choices)
+    description = models.TextField()

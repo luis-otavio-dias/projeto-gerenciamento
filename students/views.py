@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
-from students.models import Students, Navigators, ScheduleAvailability
+from students.models import Students, Navigators, ScheduleAvailability, Meeting
 from datetime import datetime, timedelta
 from students.auth import validate_token
+from django.conf import settings
+import calendar
+import locale
+
+locale.setlocale(locale.LC_TIME, settings.LANGUAGE_CODE.replace("-", "_"))
 
 
 # Create your views here.
@@ -123,11 +128,39 @@ def select_day(request):
             mentor=student.owner,
         ).values_list("initial_date", flat=True)
 
-        dates = []
+        dates, months, days = [], [], []
+
         for i in availabilities:
             dates.append(i.date().strftime("%d-%m-%Y"))
+            months.append(calendar.month_name[i.date().month])
 
         context = {
             "schedules": list(set(dates)),
+            "months": list(set(months)),
         }
         return render(request, "select_day.html", context)
+
+
+def schedule_meeting(request):
+    if not validate_token(request.COOKIES.get("auth_token")):
+        return redirect("students:auth_student")
+
+    if request.method == "GET":
+        date = request.GET.get("date")
+        date = datetime.strptime(date, "%d-%m-%Y")
+
+        student = validate_token(request.COOKIES.get("auth_token"))
+
+        schedules = ScheduleAvailability.objects.filter(
+            initial_date__gte=date,
+            initial_date__lt=date + timedelta(days=1),
+            scheduled=False,
+            mentor=student.owner,
+        )
+
+        context = {
+            "schedules": schedules,
+            "tags": Meeting.tag_choices,
+        }
+
+        return render(request, "schedule_meeting.html", context)
