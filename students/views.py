@@ -132,11 +132,13 @@ def select_day(request):
 
         for i in availabilities:
             dates.append(i.date().strftime("%d-%m-%Y"))
-            months.append(calendar.month_name[i.date().month])
+            months.append(i.date().strftime("%B").capitalize())
+            days.append(i.date().strftime("%A").capitalize())
 
         context = {
             "schedules": list(set(dates)),
             "months": list(set(months)),
+            "days": list(set(days)),
         }
         return render(request, "select_day.html", context)
 
@@ -164,3 +166,15 @@ def schedule_meeting(request):
         }
 
         return render(request, "schedule_meeting.html", context)
+
+    else:
+        schedule_id = request.POST.get("schedule_id")
+        tag = request.POST.get("tag")
+        description = request.POST.get("description")
+
+        meeting = Meeting(
+            date_id=schedule_id,
+            student=validate_token(request.COOKIES.get("auth_token")),
+            tag=tag,
+            description=description,
+        )
