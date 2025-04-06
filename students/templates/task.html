@@ -45,7 +45,7 @@
                     <p class="text-sm/6 font-semibold text-indigo-200">Reuniões</p>
                     <div class="grid grid-cols-4 gap-5">
                         <div class="col-span-3">
-                          <form action="" method="POST" enctype='multipart/form-data'>
+                          <form action="{% url "students:upload" student.id %}" method="POST" enctype='multipart/form-data'>
                             {% csrf_token %}
                             <input type="file" name="video" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
                         </div>

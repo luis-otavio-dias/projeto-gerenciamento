@@ -11,4 +11,5 @@ urlpatterns = [
     path("select_day/", views.select_day, name="select_day"),
     path("schedule_meeting/", views.schedule_meeting, name="schedule_meeting"),
     path("task/<int:id>", views.task, name="task"),
+    path("upload/<int:id>", views.upload, name="upload"),
 ]

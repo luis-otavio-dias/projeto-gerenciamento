@@ -1,4 +1,11 @@
-from students.models import Students, Navigators, ScheduleAvailability, Meeting, Task
+from students.models import (
+    Students,
+    Navigators,
+    ScheduleAvailability,
+    Meeting,
+    Task,
+    Upload,
+)
 from students.auth import validate_token
 from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
@@ -213,9 +220,12 @@ def task(request, id):
 
     if request.method == "GET":
         tasks = Task.objects.filter(student=student)
+        videos = Upload.objects.filter(student=student)
+
         context = {
             "student": student,
             "tasks": tasks,
+            "videos": videos,
         }
 
         return render(request, "task.html", context)
@@ -226,3 +236,19 @@ def task(request, id):
         )
         task.save()
         return redirect(f"/students/task/{id}")
+
+
+def upload(request, id):
+    student = Students.objects.get(id=id)
+
+    if student.owner != request.user:
+        raise Http404()
+
+    video = request.FILES.get("video")
+    upload = Upload(
+        student=student,
+        video=video,
+    )
+
+    upload.save()
+    return redirect(f"/students/task/{id}")
