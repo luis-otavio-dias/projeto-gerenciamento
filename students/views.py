@@ -9,11 +9,12 @@ from students.models import (
 from students.auth import validate_token
 from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.contrib.messages import constants
 from django.contrib import messages
 from django.conf import settings
-from django.http import Http404
+from django.http import Http404, HttpResponse
 import locale
 
 
@@ -252,3 +253,34 @@ def upload(request, id):
 
     upload.save()
     return redirect(f"/students/task/{id}")
+
+
+def student_task(request):
+    student = validate_token(request.COOKIES.get("auth_token"))
+    if not student:
+        return redirect("students:auth_student")
+
+    if request.method == "GET":
+        videos = Upload.objects.filter(student=student)
+        tasks = Task.objects.filter(student=student)
+        context = {
+            "student": student,
+            "videos": videos,
+            "tasks": tasks,
+        }
+
+        return render(request, "student_task.html", context)
+
+
+@csrf_exempt
+def toggle_task(request, id):
+    student = validate_token(request.COOKIES.get("auth_token"))
+    if not student:
+        return redirect("students:auth_student")
+
+    task = Task.objects.get(id=id)
+    if student != task.student:
+        raise Http404()
+    task.executed = not task.executed
+    task.save()
+    return HttpResponse("teste")

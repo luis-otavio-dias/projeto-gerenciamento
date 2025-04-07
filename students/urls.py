@@ -12,4 +12,6 @@ urlpatterns = [
     path("schedule_meeting/", views.schedule_meeting, name="schedule_meeting"),
     path("task/<int:id>", views.task, name="task"),
     path("upload/<int:id>", views.upload, name="upload"),
+    path("student_task/", views.student_task, name="student_task"),
+    path("toggle_task/<int:id>", views.toggle_task, name="toggle_task"),
 ]
