@@ -3,6 +3,7 @@
 {% block 'body' %}
   <script src="https://unpkg.com/htmx.org@2.0.4"></script>
   {% include "partials/_header.html" %}
+  {% load static %}
   
  
   <main>
@@ -21,7 +22,7 @@
           {% if student.picture %}
             <img src="{{student.picture.url}}" alt="" class="size-16 flex-none rounded-full ring-1 ring-gray-900/10">
           {% else %}
-            <img src="#" alt="" class="size-16 flex-none rounded-full ring-1 ring-gray-900/10">
+            <img src="{% static "no_picture.png" %}" alt="" class="size-16 flex-none rounded-full ring-1 ring-gray-900/10">
           {% endif %}
             <h1>
               <div class="mt-1 text-base font-semibold text-gray-200">{{student}}</div>
@@ -79,7 +80,7 @@
                       
                 </div>
                 <br>
-                
+              {% if tasks %}
                 {% for task in tasks %} 
                   <div class="flex items-center mb-4">
                       <input id="default-checkbox" hx-post="/students/toggle_task/{{task.id}}" hx-trigger="click" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -87,6 +88,9 @@
                       <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{task.task}}</label>
                   </div>
                 {% endfor %}
+              {% else %}
+                <h3 class="mt-4 text-2xl/9 font-bold tracking-tight text-gray-100">Nenhuma tarefa disponível ainda.</h2>
+              {% endif %}
             </div>
     
             

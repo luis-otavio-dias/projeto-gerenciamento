@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block 'body' %}
   {% include "partials/_header.html" %}
-
+  {% load static %}
   <div class="bg-[#040e1b] min-h-screen">
     <div class="max-w-7xl mx-auto py-12">
         <div class="grid grid-cols-2 gap-4">
@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="mt-4">
-                        <label class="block text-sm/6 font-medium text-gray-200">Navigator</label>
+                        <label class="block text-sm/6 font-medium text-gray-200">Mentor</label>
                         <div class="mt-2">
                             <select name="navigator" id="" class="block w-full rounded-md bg-white/5 px-3 py-2 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
                               {% for navigator in navigators %}
@@ -104,7 +104,7 @@
                         {% if student.picture %}
                           <img src="{{student.picture.url}}" alt="" class="size-8 rounded-full bg-gray-800">
                         {% else %}
-                          <img src="" alt="" class="size-8 rounded-full bg-gray-800">
+                          <img src="{% static 'no_picture.png' %}" alt="" class="size-8 rounded-full bg-gray-800">
                         {% endif %}
                         <div class="truncate text-sm/6 font-medium text-white"> 
                           <a href="{% url "students:task" student.id %}">{{student.name}}</a>
@@ -142,23 +142,23 @@
      
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <script>
-    const ctx = document.getElementById('myChart');
+    <script>
+      const ctx = document.getElementById('myChart');
 
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: {{stages_flat|safe}},
-        datasets: [{
-          label: '',
-          data: {{ qtt_stages|safe }},
-          borderWidth: 1
-        }]
-      },
-      
-    });
-</script>
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: {{stages_flat|safe}},
+          datasets: [{
+            label: '',
+            data: {{ qtt_stages|safe }},
+            borderWidth: 1
+          }]
+        },
+        
+      });
+  </script>
 
 {% endblock 'body' %}

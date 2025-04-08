@@ -2,7 +2,7 @@
 {% load static %}
 {% block 'body' %}
   {% include "partials/_header.html" %}
-  
+  {% load static %}
   
   <main>
     <header class="relative isolate pt-16 bg-[#0b1526] border-b-1 border-slate-500">
@@ -19,7 +19,7 @@
             {% if student.picture %}
               <img src="{{student.picture.url}}" alt="" class="size-16 flex-none rounded-full ring-1 ring-gray-900/10">
             {% else %}
-              <img src="#" alt="" class="size-16 flex-none rounded-full ring-1 ring-gray-900/10">
+              <img src="{% static 'no_picture.png' %}" alt="" class="size-16 flex-none rounded-full ring-1 ring-gray-900/10">
             {% endif %}
             <h1>
               <div class="mt-1 text-base font-semibold text-gray-200">{{student}}</div>

@@ -74,6 +74,27 @@ def students(request):
 
 
 @login_required(login_url="users:login")
+def navigator_view(request):
+    if request.method == "POST":
+        name = request.POST.get("nome")
+        owner = request.user
+
+        navigator = Navigators(name=name, owner=owner)
+
+        navigator.save()
+
+        messages.add_message(
+            request,
+            constants.SUCCESS,
+            "Mentor cadastrado com sucesso.",
+        )
+
+        return redirect("students:student")
+
+    return render(request, "navigator.html")
+
+
+@login_required(login_url="users:login")
 def meeting(request):
     if request.method == "GET":
         meetings = Meeting.objects.filter(date__mentor=request.user)
