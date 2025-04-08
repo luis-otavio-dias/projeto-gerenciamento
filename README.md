@@ -4,7 +4,7 @@ Este projeto foi desenvolvido durante a Pystack Week 13 com foco em desenvolvime
 
 **Funcionalidades:**
 
-- Cadastro e login de usuários com validação
+- Cadastro e login de usuários
 - Criação de mentores
 - Mentores podem cadastrar mentorados
 - Geração de token único de acesso para cada mentorado
