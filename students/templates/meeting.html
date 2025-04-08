@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block 'body' %}
   {% include "partials/_header.html" %}
+  {% load static %}
+
 
   <div class="bg-[#040e1b] min-h-screen">
     <div class="max-w-7xl mx-auto py-8">
@@ -39,7 +41,7 @@
                         {% if meeting.student.picture %}
                           <img class="size-12 flex-none rounded-full bg-gray-800" src="{{meeting.student.picture.url}}" alt="">
                         {% else %}
-                          <img class="size-12 flex-none rounded-full bg-gray-800" src="#" alt="">
+                          <img src="{% static "no_picture.png" %}" alt="" class="size-12 flex-none rounded-full bg-gray-800">
                         {% endif %}
                         <div class="min-w-0 flex-auto">
                           <p class="text-sm/6 font-semibold text-white"> {{meeting.student}} </p>
