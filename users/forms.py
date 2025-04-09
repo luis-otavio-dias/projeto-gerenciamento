@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-from django.contrib.auth import password_validation
 
 
 class RegisterForm(UserCreationForm):
@@ -12,6 +11,7 @@ class RegisterForm(UserCreationForm):
             focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
 
     username = forms.CharField(
+        label="Username",
         required=True,
         min_length=3,
         widget=forms.TextInput(attrs={"class": _input_css}),
@@ -20,18 +20,19 @@ class RegisterForm(UserCreationForm):
     password1 = forms.CharField(
         label="Senha",
         strip=False,
-        min_length=6,
         widget=forms.PasswordInput(attrs={"class": _input_css}),
-        help_text=password_validation.password_validators_help_text_html(),
+        help_text=(
+            "Sua senha precisa conter pelo menos 8 caracteres.",
+            "Sua senha não pode ser inteiramente numérica.",
+        ),
         required=True,
     )
 
     password2 = forms.CharField(
         label="Confirmar senha",
         strip=False,
-        min_length=6,
         widget=forms.PasswordInput(attrs={"class": _input_css}),
-        help_text="Repita a senha.",
+        help_text=("Repita a senha.",),
         required=True,
     )
 
@@ -39,25 +40,15 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ("username", "password1", "password2")
 
-    def clean_username(self):
-        username = self.cleaned_data(self.username)
-
-        if User.objects.filter(username=username).exists():
-            self.add_error(
-                "username",
-                ValidationError("Username já cadastrado.", code="invalid"),
-            )
-
-        return username
-
     def clean(self):
-        password1 = self.cleaned_data.get("senha")
-        password2 = self.cleaned_data.get("confirmar_senha")
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
 
         if password1 or password2:
             if password1 != password2:
                 self.add_error(
-                    "confirmar_senha", ValidationError("Senhas não coincidem.")
+                    "password2",
+                    ValidationError("Senhas não coincidem."),
                 )
 
         return super().clean()

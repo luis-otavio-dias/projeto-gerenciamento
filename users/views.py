@@ -9,18 +9,33 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+
+
 def register(request):
-    user = RegisterForm()
-
     if request.method == "POST":
-        user = RegisterForm(request.POST)
+        form = RegisterForm(request.POST)
 
-        if user.is_valid():
-            user.save()
-            messages.add_message(request, constants.SUCCESS)
+        username = request.POST.get("username")
+        user = User.objects.filter(username=username)
+        if user.exists():
+            messages.add_message(
+                request,
+                constants.ERROR,
+                "Username já cadastrado.",
+            )
+            return redirect("users:register")
+
+        if form.is_valid():
+            form.save()
+            messages.add_message(
+                request,
+                constants.SUCCESS,
+                "Registro realizado com sucesso.",
+            )
             return redirect("users:login")
-
-    return render(request, "users/register.html", {"user": user})
+    else:
+        form = RegisterForm()
+    return render(request, "users/register.html", {"form": form})
 
 
 def login_view(request):

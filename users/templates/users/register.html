@@ -35,20 +35,34 @@
             <form action="{% url "users:register" %}" method="POST" class="space-y-6">
               {% csrf_token %}
 
-              {% for field in user %}
-              <div>
-                <label for="{{ field.id_for_label }}" class="block text-sm/6 font-medium text-gray-200">{{field.label}}</label>
-                <div class="mt-2">
-                  {{ field }}
-                </div>
-                {{ field.errors }}  
-        
-                {% if field.help_text %}
-                  <p class="mt-2 text-sm/6 text-gray-500">{{ field.help_text }}</p>
-                {% endif %}
-              </div>
-            {% endfor %}
-  
+                {% for field in form %}
+                  <div>
+                    <label for="{{ field.id_for_label }}" class="block text-sm/6 font-medium text-gray-200">{{field.label}}</label>
+                    <div class="mt-2">
+                      {{ field }}
+                      
+                      {% if field.errors %}
+                        {% for error in field.errors %}
+                          <div class="rounded-md bg-red-50 text-red-700 mt-4">
+                            <div class="flex">
+                                <div class="ml-3">
+                                    {{error}} 
+                                </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      {% endif %}
+                      {% for text in field.help_text %}
+                        {% if field.help_text %}
+                          <p class="mt-1 text-sm/6 text-gray-500">
+                            {{ text }}
+                          </p>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endfor %}
+
               <div>
                 <button type="submit" class="flex w-full justify-center cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Cadastrar</button>
               </div>
