@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block 'body' %}
+    {% load static %}
+    <div class="flex h-screen overflow-hidden">
+
+        <div class="w-full md:w-1/2 bg-slate-900 text-white p-8 flex flex-col">
+           
+          <a href="{% url "home:home" %}">
+            <div class="mb-8">
+              <img class="h-15 w-auto" src="{% static 'logo.png' %}" alt="Logo">
+            </div>
+          </a>
+            
+            
+            <div class="flex-1 flex flex-col justify-center max-w-lg mx-auto">
+                <h1 class="text-3xl font-semibold mb-4">Bem-vindo à Plataforma</h1>
+                <p class="text-slate-400 mb-8">Escolha como deseja acessar o sistema</p>
+                
+                
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <a href="{% url "users:login" %}" class="flex-1 bg-slate-800 rounded-lg p-6 border border-slate-700 hover:border-primary hover:-translate-y-1 transition-all duration-300 hover:shadow-lg hover:shadow-black/30 text-white no-underline">
+                        <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center text-primary mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold mb-2">Mentor</h2>
+                        <p class="text-sm text-slate-400">Acesse como mentor para gerenciar seus mentorados e reuniões</p>
+                    </a>
+                    
+                    <a href="{% url "students:auth_student" %}" class="flex-1 bg-slate-800 rounded-lg p-6 border border-slate-700 hover:border-primary hover:-translate-y-1 transition-all duration-300 hover:shadow-lg hover:shadow-black/30 text-white no-underline">
+                        <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center text-primary mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0 -20 0"></path>
+                                <path d="M12 9h.01"></path>
+                                <path d="M11 12h1v4h1"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold mb-2">Aluno</h2>
+                        <p class="text-sm text-slate-400">Acesse como aluno para visualizar suas tarefas e participar de mentorias</p>
+                    </a>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <p class="text-slate-400">Não tem conta? <a href="{% url "users:register" %}" class="text-primary font-semibold text-indigo-300 hover:text-indigo-200">Crie sua conta aqui</a></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hidden md:block w-1/2 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-900/40"></div>
+        </div>
+    </div>
+{% endblock 'body' %}

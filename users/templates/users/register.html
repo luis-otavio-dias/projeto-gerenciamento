@@ -8,7 +8,9 @@
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           
-          <img class="h-15 w-auto" src="{% static 'logo.png' %}" alt="Logo">
+          <a href="{% url "home:home" %}">
+            <img class="h-15 w-auto" src="{% static 'logo.png' %}" alt="Logo">
+          </a>
 
           <h2 class="mt-4 text-2xl/9 font-bold tracking-tight text-gray-100">Crie sua conta</h2>
           <p class="mt-2 text-sm/6 text-gray-500">
