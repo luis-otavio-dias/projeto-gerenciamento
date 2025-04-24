@@ -12,22 +12,27 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from django.contrib.messages import constants
 from pathlib import Path
+from dotenv import load_dotenv
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / "dotenv_files" / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-w+chmfbg4xi5zw$sfoizksof8!*ydc9zhumlf8ht-rz4-71e=@"
+SECRET_KEY = os.getenv("SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    h.strip() for h in os.getenv("ALLOWED_HOSTS", "").split(",") if h.strip()
+]
 
 
 # Application definition
@@ -80,8 +85,16 @@ WSGI_APPLICATION = "project.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": os.getenv("DB_ENGINE", "change-me"),
+        "NAME": os.getenv("MYSQL_DB", "change-me"),
+        "USER": os.getenv("MYSQL_USER", "change-me"),
+        "PASSWORD": os.getenv("MYSQL_PASSWORD", "change-me"),
+        "HOST": os.getenv("MYSQL_HOST", "change-me"),
+        "PORT": os.getenv("MYSQL_PORT", "change-me"),
+        "OPTIONS": {
+            "charset": "utf8mb4",
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
