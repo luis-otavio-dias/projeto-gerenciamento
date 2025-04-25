@@ -18,7 +18,7 @@ Este projeto foi desenvolvido durante a Pystack Week 13 com foco em desenvolvime
 - Python
 - Django
 - HTML / Tailwind css
-- SQLite
+- MySQL
 
 **Como executar o projeto localmente**
 
