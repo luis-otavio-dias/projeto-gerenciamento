@@ -1,12 +1,13 @@
-import django
+# import django
 from django.test import LiveServerTestCase
 from utils.browser import make_chrome_browser
-import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+# import os
+
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
 
 
-django.setup()
+# django.setup()
 
 
 class HomePageBaseFunctionalTest(LiveServerTestCase):
