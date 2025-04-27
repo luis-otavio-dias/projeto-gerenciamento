@@ -27,7 +27,3 @@ def make_chrome_browser(*options: str) -> webdriver.Chrome:
     browser = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
     return browser
-
-
-if __name__ == "__main__":
-    print(ROOT_FOLDER)
