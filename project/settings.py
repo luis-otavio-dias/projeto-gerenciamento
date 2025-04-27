@@ -83,9 +83,10 @@ WSGI_APPLICATION = "project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("DB_ENGINE", "change-me"),
+        "ENGINE": os.getenv("DB_ENGINE", "chnage-me"),
         "NAME": os.getenv("MYSQL_DB", "change-me"),
         "USER": os.getenv("MYSQL_USER", "change-me"),
         "PASSWORD": os.getenv("MYSQL_PASSWORD", "change-me"),
