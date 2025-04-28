@@ -16,5 +16,5 @@ class HomePageTest(HomePageBaseFunctionalTest):
 
     def test_click_aluno_auth(self):
         self.browser.get(self.live_server_url)
-        links = links = self.find_links()
+        links = self.find_links()
         links[2].click()
