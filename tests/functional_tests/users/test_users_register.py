@@ -112,3 +112,18 @@ class UserResgisterTest(UserBaseFunctionalTest):
             )
 
         self.form_field_with_callback(callback)
+
+    def test_user_valid_register(self):
+        self.browser.get(self.live_server_url + "/users/register/")
+        form = self.get_form()
+
+        self.get_by_id(form, "id_username").send_keys("User")
+        self.get_by_id(form, "id_password1").send_keys("P@assw0rd")
+        self.get_by_id(form, "id_password2").send_keys("P@assw0rd")
+
+        form.submit()
+
+        self.assertIn(
+            "Registro realizado com sucesso.",
+            self.browser.find_element(By.TAG_NAME, "body").text,
+        )
