@@ -6,9 +6,6 @@ from .base import UserBaseFunctionalTest
 
 @pytest.mark.functional_test
 class UserResgisterTest(UserBaseFunctionalTest):
-    def get_by_id(self, web_element, id):
-        return web_element.find_element(By.XPATH, f"//input[@id='{id}']")
-
     def fill_form_dummy_data(self, web_element):
         fields = web_element.find_elements(By.TAG_NAME, "input")
 
@@ -112,3 +109,18 @@ class UserResgisterTest(UserBaseFunctionalTest):
             )
 
         self.form_field_with_callback(callback)
+
+    def test_user_valid_register(self):
+        self.browser.get(self.live_server_url + "/users/register/")
+        form = self.get_form()
+
+        self.get_by_id(form, "id_username").send_keys("User")
+        self.get_by_id(form, "id_password1").send_keys("P@assw0rd")
+        self.get_by_id(form, "id_password2").send_keys("P@assw0rd")
+
+        form.submit()
+
+        self.assertIn(
+            "Registro realizado com sucesso.",
+            self.browser.find_element(By.TAG_NAME, "body").text,
+        )

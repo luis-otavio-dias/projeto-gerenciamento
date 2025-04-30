@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import LiveServerTestCase
+from selenium.webdriver.common.by import By
 from utils.browser import make_chrome_browser
 
 
@@ -15,9 +16,15 @@ class UserBaseFunctionalTest(LiveServerTestCase):
     def make_user(
         self,
         username="user",
-        password1="teste1234",
+        password="P@ssw0rd",
     ):
         return User.objects.create_user(
             username=username,
-            password=password1,
+            password=password,
         )
+
+    def get_input_by_id(self, web_element, id):
+        return web_element.find_element(By.XPATH, f"//input[@id='{id}']")
+
+    def get_input_by_name(self, web_element, name):
+        return web_element.find_element(By.XPATH, f"//input[@name='{name}']")
