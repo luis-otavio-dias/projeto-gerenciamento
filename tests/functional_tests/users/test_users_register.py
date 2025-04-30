@@ -6,9 +6,6 @@ from .base import UserBaseFunctionalTest
 
 @pytest.mark.functional_test
 class UserResgisterTest(UserBaseFunctionalTest):
-    def get_by_id(self, web_element, id):
-        return web_element.find_element(By.XPATH, f"//input[@id='{id}']")
-
     def fill_form_dummy_data(self, web_element):
         fields = web_element.find_elements(By.TAG_NAME, "input")
 
