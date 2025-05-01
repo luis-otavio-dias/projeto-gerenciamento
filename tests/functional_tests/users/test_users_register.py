@@ -37,7 +37,7 @@ class UserResgisterTest(UserBaseFunctionalTest):
 
     def test_empty_username_message(self):
         def callback(form):
-            username_field = self.get_by_id(form, "id_username")
+            username_field = self.get_input_by_id(form, "id_username")
             username_field.send_keys(" ")
             username_field.send_keys(Keys.ENTER)
             form = self.get_form()
@@ -48,8 +48,8 @@ class UserResgisterTest(UserBaseFunctionalTest):
     def test_short_password_message(self):
         def callback(form):
             self.dummy_field(form, "username", "user")
-            password1 = self.get_by_id(form, "id_password1")
-            password2 = self.get_by_id(form, "id_password2")
+            password1 = self.get_input_by_id(form, "id_password1")
+            password2 = self.get_input_by_id(form, "id_password2")
             password1.send_keys("test")
             password2.send_keys("test")
             password2.send_keys(Keys.ENTER)
@@ -65,10 +65,10 @@ class UserResgisterTest(UserBaseFunctionalTest):
     def test_common_password_message(self):
         def callback(form):
             self.dummy_field(form, "username", "user")
-            password1 = self.get_by_id(form, "id_password1")
-            password2 = self.get_by_id(form, "id_password2")
-            password1.send_keys("12345678")
-            password2.send_keys("12345678")
+            password1 = self.get_input_by_id(form, "id_password1")
+            password2 = self.get_input_by_id(form, "id_password2")
+            password1.send_keys("password")
+            password2.send_keys("password")
             password2.send_keys(Keys.ENTER)
             form = self.get_form()
             self.assertIn(
@@ -81,8 +81,8 @@ class UserResgisterTest(UserBaseFunctionalTest):
     def test_numeric_password_message(self):
         def callback(form):
             self.dummy_field(form, "username", "user")
-            password1 = self.get_by_id(form, "id_password1")
-            password2 = self.get_by_id(form, "id_password2")
+            password1 = self.get_input_by_id(form, "id_password1")
+            password2 = self.get_input_by_id(form, "id_password2")
             password1.send_keys("12345678")
             password2.send_keys("12345678")
             password2.send_keys(Keys.ENTER)
@@ -97,8 +97,8 @@ class UserResgisterTest(UserBaseFunctionalTest):
     def test_passwords_do_not_match(self):
         def callback(form):
             self.dummy_field(form, "username", "user")
-            password1 = self.get_by_id(form, "id_password1")
-            password2 = self.get_by_id(form, "id_password2")
+            password1 = self.get_input_by_id(form, "id_password1")
+            password2 = self.get_input_by_id(form, "id_password2")
             password1.send_keys("Password")
             password2.send_keys("Passowrd_Different")
             password2.send_keys(Keys.ENTER)
@@ -114,9 +114,9 @@ class UserResgisterTest(UserBaseFunctionalTest):
         self.browser.get(self.live_server_url + "/users/register/")
         form = self.get_form()
 
-        self.get_by_id(form, "id_username").send_keys("User")
-        self.get_by_id(form, "id_password1").send_keys("P@assw0rd")
-        self.get_by_id(form, "id_password2").send_keys("P@assw0rd")
+        self.get_input_by_id(form, "id_username").send_keys("User")
+        self.get_input_by_id(form, "id_password1").send_keys("P@assw0rd")
+        self.get_input_by_id(form, "id_password2").send_keys("P@assw0rd")
 
         form.submit()
 
