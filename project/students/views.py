@@ -1,4 +1,4 @@
-from students.models import (
+from project.students.models import (
     Students,
     Navigators,
     ScheduleAvailability,
@@ -6,7 +6,7 @@ from students.models import (
     Task,
     Upload,
 )
-from students.auth import validate_token
+from project.students.auth import validate_token
 from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
