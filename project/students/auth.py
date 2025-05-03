@@ -1,4 +1,4 @@
-from students.models import Students
+from project.students.models import Students
 
 
 def validate_token(token):

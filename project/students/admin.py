@@ -1,5 +1,5 @@
 from django.contrib import admin
-from students.models import (
+from project.students.models import (
     Navigators,
     Students,
     ScheduleAvailability,
