@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # API
+    "rest_framework",
+    # Apps
     "project.home",
     "project.users",
     "project.students",
