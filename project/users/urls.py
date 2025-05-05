@@ -10,4 +10,5 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout"),
     # API urls
     path("api/", views.user_api_list, name="user_api_list"),
+    path("api/<int:pk>/", views.user_api_detail, name="user_api_detail"),
 ]
