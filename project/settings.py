@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from django.contrib.messages import constants
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
 
 import os
 
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # API
     "rest_framework",
+    "rest_framework_simplejwt",
     # Apps
     "project.home",
     "project.users",
@@ -153,4 +155,20 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MESSAGE_TAGS = {
     constants.SUCCESS: "bg-green-50 text-green-700",
     constants.ERROR: "bg-red-50 text-red-700",
+}
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
+
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "BLACKLIST_AFTER_ROTATION": False,
+    "SIGNING_KEY": os.getenv("SECRET_KEY_JWT", "change-me"),
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }

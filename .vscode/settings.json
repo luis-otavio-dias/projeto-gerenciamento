@@ -1,6 +1,6 @@
 {
     "workbench.startupEditor": "none",
-    "workbench.colorTheme": "Bearded Theme Monokai Black",
+    "workbench.colorTheme": "Bearded Theme Vivid Black",
     "workbench.iconTheme": "material-icon-theme",
     "python.REPL.enableREPLSmartSend": false,
     "editor.guides.indentation": true,
