@@ -1,5 +1,5 @@
-from project.students.models import Students
-from project.students.serializers import StudentsSerializer
+from project.students.models import Students, Task
+from project.students.serializers import StudentsSerializer, TaskSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -18,4 +18,27 @@ def student_detail(request, pk):
         Students.objects.filter(pk=pk),
     )
     serializer = StudentsSerializer(instance=student)
+    return Response(serializer.data)
+
+
+@api_view()
+def task_list(request):
+    task = Task.objects.all()
+    serializer = TaskSerializer(
+        instance=task,
+        many=True,
+        context={"request": request},
+    )
+    return Response(serializer.data)
+
+
+@api_view()
+def task_detail(request, pk):
+    task = get_object_or_404(
+        Task.objects.filter(pk=pk),
+    )
+    serializer = TaskSerializer(
+        instance=task,
+        context={"request": request},
+    )
     return Response(serializer.data)

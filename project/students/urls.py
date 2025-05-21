@@ -17,10 +17,8 @@ urlpatterns = [
     path("student_task/", views.student_task, name="student_task"),
     path("toggle_task/<int:id>", views.toggle_task, name="toggle_task"),
     # API
-    path("ai/", views.students_list, name="students_list"),
-    path(
-        "ai/<int:pk>/",
-        views.student_detail,
-        name="student_detail",
-    ),
+    path("api/", views.students_list, name="students_list"),
+    path("api/<int:pk>/", views.student_detail, name="student_detail"),
+    path("api/task/", views.task_list, name="task_list"),
+    path("api/task/<int:pk>/", views.task_detail, name="task_detail"),
 ]

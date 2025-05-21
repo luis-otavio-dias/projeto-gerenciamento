@@ -1,11 +1,26 @@
 from rest_framework import serializers
-from project.students.models import Navigators
+from project.students.models import Students, Task
 
 
-class StudentsSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    name = serializers.CharField()
+class StudentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Students
+        fields = ["id", "name", "navigator", "stage", "owner", "created_in"]
+
     navigator = serializers.StringRelatedField()
-    stage = serializers.CharField()
     owner = serializers.CharField()
-    created_in = serializers.DateField()
+
+
+class TaskSerializer(serializers.Serializer):
+    class Meta:
+        model = Task
+        fields = ["id", "student", "task", "executed"]
+
+    student = serializers.StringRelatedField()
+    student_link = serializers.HyperlinkedRelatedField(
+        source="student",
+        queryset=Students.objects.all(),
+        view_name="students:student_detail",
+    )
+    task = serializers.CharField()
+    executed = serializers.BooleanField(read_only=True)

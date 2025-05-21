@@ -93,6 +93,9 @@ class Task(models.Model):
     task = models.CharField(max_length=255)
     executed = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.task
+
 
 class Upload(models.Model):
     student = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
