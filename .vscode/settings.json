@@ -6,7 +6,7 @@
     "editor.guides.indentation": true,
     "editor.fontLigatures": true,
     "editor.renderWhitespace": "all",
-    "editor.fontSize": 16,
+    "editor.fontSize": 15,
     "editor.rulers": [
         100
     ],
