@@ -9,10 +9,7 @@ bin
 __pycache__
 db.sqlite3
 media
-static
-project/local_settings.py
-/migrations
-migrations
+/static/
 
 # Backup files # 
 *.bak 
