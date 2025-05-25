@@ -1,12 +1,12 @@
 {
     "workbench.startupEditor": "none",
-    "workbench.colorTheme": "Bearded Theme Black & Amethyst Soft",
+    "workbench.colorTheme": "Bearded Theme Monokai Black",
     "workbench.iconTheme": "material-icon-theme",
     "python.REPL.enableREPLSmartSend": false,
     "editor.guides.indentation": true,
     "editor.fontLigatures": true,
     "editor.renderWhitespace": "all",
-    "editor.fontSize": 16,
+    "editor.fontSize": 15,
     "editor.rulers": [
         100
     ],
