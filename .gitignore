@@ -1,6 +1,6 @@
 INITIAL.MD
 bin
-.vscode
+/.vscode/
 
 # Django #
 *.log

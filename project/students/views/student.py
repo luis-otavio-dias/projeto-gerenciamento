@@ -11,12 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.contrib.messages import constants
 from django.contrib import messages
-from django.conf import settings
 from django.http import Http404, HttpResponse
-import locale
-
-
-locale.setlocale(locale.LC_TIME, settings.LANGUAGE_CODE.replace("-", "_"))
 
 
 def auth_view(request):

@@ -11,12 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.messages import constants
 from django.contrib import messages
-from django.conf import settings
 from django.http import Http404
-import locale
-
-
-locale.setlocale(locale.LC_TIME, settings.LANGUAGE_CODE.replace("-", "_"))
 
 
 @login_required(login_url="users:login")
